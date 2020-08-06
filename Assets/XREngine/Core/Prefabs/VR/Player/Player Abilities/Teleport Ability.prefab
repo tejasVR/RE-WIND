@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3475546427711311206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3475546427711311207}
+  - component: {fileID: 3475546427711311210}
+  m_Layer: 0
+  m_Name: Teleport Ability
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3475546427711311207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475546427711311206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3475546427711311210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3475546427711311206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10849ed767aa5f24f959d1da83231e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+  assignedHand: 0
+  primaryButton: 4
+  secondaryButton: 6
+  bezierLinePrefab: {fileID: 7813306404497806586, guid: 3992d1299eda4c948b87821854b6ad1a,
+    type: 3}
+  teleportPuckPrefab: {fileID: 2030220398462386841, guid: a7e2734763cf91a469285c1a417d5dd8,
+    type: 3}
+  availablePuckMat: {fileID: 2100000, guid: 50999c95e15653a4ca78893790f550e2, type: 2}
+  unavailablePuckMat: {fileID: 2100000, guid: 6b00964cb19aa9d47b79f8b3dbf80c38, type: 2}
+  availableLineMat: {fileID: 2100000, guid: 69acb6d3948f6b54796cc248650bad3e, type: 2}
+  unavailableLineMat: {fileID: 2100000, guid: 67e66e234151a714faa23fa2d6486c30, type: 2}
