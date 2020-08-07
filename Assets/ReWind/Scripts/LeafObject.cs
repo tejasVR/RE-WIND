@@ -28,11 +28,15 @@ namespace ReWind.Scripts
         public void PushLeaf(Vector3 pushDirection)
         {
             _rb.AddForce(pushDirection, ForceMode.Impulse);
+            
+            _rb.AddTorque(pushDirection /2, ForceMode.Impulse);
+
         }
 
         private void ApplyLeafGravity()
         {
             _rb.AddForce(_leafGravity);
+            
             
             //transform.Translate(_leafGravity);
         }

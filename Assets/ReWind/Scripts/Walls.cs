@@ -4,13 +4,13 @@ namespace ReWind.Scripts
 {
     public class Walls : MonoBehaviour
     {
-        private float _pushForce = 30F;
+        private float _pushForce = .5F;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnCollisionEnter(Collision other)
         {
-            if (!other.CompareTag("LeafObject")) return;
+            if (!other.gameObject.CompareTag("LeafObject")) return;
             
-            var leafObject = other.GetComponent<LeafObject>();
+            var leafObject = other.gameObject.GetComponent<LeafObject>();
                 
           leafObject.PushLeaf(-transform.forward * _pushForce);
         }
