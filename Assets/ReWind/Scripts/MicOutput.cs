@@ -53,7 +53,7 @@ namespace ReWind.Scripts
             _micOutput = this;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             MeasureMicOutputVolume();
         }
@@ -83,6 +83,8 @@ namespace ReWind.Scripts
             {
                 _clipLoudness += Mathf.Abs(sample);
             }
+
+            _clipLoudness = Mathf.Clamp(_clipLoudness, 0, 100);
         }
 
 
