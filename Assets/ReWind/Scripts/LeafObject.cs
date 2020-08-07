@@ -32,7 +32,9 @@ namespace ReWind.Scripts
 
         private void ApplyLeafGravity()
         {
-            transform.Translate(_leafGravity);
+            _rb.AddForce(_leafGravity);
+            
+            //transform.Translate(_leafGravity);
         }
     }
 }
