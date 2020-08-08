@@ -1663,7 +1663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _preset: 999
   _quality: 1
-  _profile: {fileID: 0}
+  _profile: {fileID: 11400000, guid: c9b760df3cbdc9549b68880753b53a95, type: 2}
   _syncWithProfile: 1
   _compareMode: 0
   _compareLineAngle: 1.4
@@ -1710,7 +1710,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _bloomLayerMaskDownsampling: 1
-  _bloomIntensity: 0.4
+  _bloomIntensity: 0.09
   _bloomMaxBrightness: 1000
   _bloomBoost0: 0
   _bloomBoost1: 0
@@ -2747,6 +2747,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5270777496175140965, guid: 452424e94c73b664db94563fc55a82e0,
+        type: 3}
+      propertyPath: spawnType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5270777496175140966, guid: 452424e94c73b664db94563fc55a82e0,
         type: 3}
@@ -6570,7 +6575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _preset: 999
   _quality: 1
-  _profile: {fileID: 0}
+  _profile: {fileID: 11400000, guid: c9b760df3cbdc9549b68880753b53a95, type: 2}
   _syncWithProfile: 1
   _compareMode: 0
   _compareLineAngle: 1.4
