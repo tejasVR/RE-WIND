@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Base Environment.unity
+    guid: f283853dbb40f664f974359e17e73767
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Level 1.unity
+    guid: d928b4e36ddd7b545b8acfe45a8cb6e0
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Level 2.unity
+    guid: 75c68cc93f58de84993b140f381606c2
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Level 3.unity
+    guid: 7dafad3bfe79f464eb6ed32b71e7d917
   m_configObjects: {}

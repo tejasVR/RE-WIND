@@ -66,6 +66,12 @@ namespace ReWind.Scripts
 
             foreach (var leaf in _intersectingLeafObjects)
             {
+                if (leaf == null)
+                {
+                    _intersectingLeafObjects.Remove(leaf);
+                    continue;
+                }
+                
                 leaf.PushLeaf(pushDirection * _breathForce);
             }
         }
