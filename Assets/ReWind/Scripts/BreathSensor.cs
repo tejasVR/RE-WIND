@@ -8,8 +8,12 @@ namespace ReWind.Scripts
     [RequireComponent(typeof(Collider))]
     public class BreathSensor : MonoBehaviour
     {
-        [SerializeField] private float micOutputDivider;
-        [SerializeField] private float upwardsForce;
+        [SerializeField] private float micOutputDividerPC;
+        [SerializeField] private float upwardsForcePC;
+        
+        [Space(7)]
+        [SerializeField] private float micOutputDividerQuest;
+        [SerializeField] private float upwardsForceQuest;
 
         [Space(7)]
         [SerializeField] private ParticleSystem windParticles;
@@ -20,6 +24,9 @@ namespace ReWind.Scripts
         private float _breathForce;
         
         private List<LeafObject> _intersectingLeafObjects = new List<LeafObject>();
+        
+        private float _micOutputDivider;
+        private float _upwardsForce;
 
         private void Awake()
         {
@@ -29,6 +36,7 @@ namespace ReWind.Scripts
         private void Start()
         {
             _head = PlayerManager.Instance.GetHeadTransform();
+            SetPlatformVariables();
         }
         
         private void OnTriggerEnter(Collider other)
@@ -61,13 +69,28 @@ namespace ReWind.Scripts
             PlayWindParticles(_breathForce);
         }
 
+        private void SetPlatformVariables()
+        {
+            if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Quest)
+            {
+                _micOutputDivider = micOutputDividerQuest;
+                _upwardsForce = upwardsForceQuest;
+            }
+            else if(OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Rift_S || OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Link_Quest)
+            {
+                _micOutputDivider = micOutputDividerPC;
+                _upwardsForce = upwardsForcePC;
+            }
+            
+        }
+
         private void CalculateBreathForce()
         {
             var micOutput = MicOutput.Instance.MicVolume;
 
-            _breathForce = micOutput / micOutputDivider;
+            _breathForce = micOutput / _micOutputDivider;
 
-            var pushDirection = _head.transform.forward + (_head.transform.up * upwardsForce);
+            var pushDirection = _head.transform.forward + (_head.transform.up * _upwardsForce);
             
             if (_breathForce < particlePlayThreshold) return;
 
