@@ -10,6 +10,10 @@ namespace ReWind.Scripts
     {
         [SerializeField] private float micOutputDivider;
         [SerializeField] private float upwardsForce;
+
+        [Space(7)]
+        [SerializeField] private ParticleSystem windParticles;
+        [SerializeField] private float particlePlayThreshold;
         
         private Collider _breathCollider;
         private Transform _head;
@@ -51,9 +55,10 @@ namespace ReWind.Scripts
             }
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             CalculateBreathForce();
+            PlayWindParticles(_breathForce);
         }
 
         private void CalculateBreathForce()
@@ -63,6 +68,8 @@ namespace ReWind.Scripts
             _breathForce = micOutput / micOutputDivider;
 
             var pushDirection = _head.transform.forward + (_head.transform.up * upwardsForce);
+            
+            if (_breathForce < particlePlayThreshold) return;
 
             foreach (var leaf in _intersectingLeafObjects)
             {
@@ -72,7 +79,28 @@ namespace ReWind.Scripts
                     continue;
                 }
                 
-                leaf.PushLeaf(pushDirection * _breathForce);
+                leaf.PushLeaf(pushDirection * (_breathForce * .02F));
+            }
+        }
+
+        private void PlayWindParticles(float breathForce)
+        {
+            var main = windParticles.main;
+            main.startSpeed = _breathForce * 5;
+
+            if (breathForce > particlePlayThreshold)
+            {
+                if (!windParticles.isPlaying)
+                {
+                    windParticles.Play();
+                }
+            }
+            else
+            {
+                if (windParticles.isPlaying)
+                {
+                    windParticles.Stop();
+                }
             }
         }
     }

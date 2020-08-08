@@ -176,17 +176,17 @@ namespace XREngine.Core.Scripts.VR.Player
 
         private void CheckDeployedDevice()
         {
-            if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Go)
-            {
-                if (DominantHand == LeftHand)
-                {
-                    RightHand.gameObject.SetActive(false);
-                }
-                else
-                {
-                    LeftHand.gameObject.SetActive(false);
-                }
-            }
+            // if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Go)
+            // {
+            //     if (DominantHand == LeftHand)
+            //     {
+            //         RightHand.gameObject.SetActive(false);
+            //     }
+            //     else
+            //     {
+            //         LeftHand.gameObject.SetActive(false);
+            //     }
+            // }
 
             if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Rift_S)
             {

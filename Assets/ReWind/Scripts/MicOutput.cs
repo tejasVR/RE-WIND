@@ -37,6 +37,8 @@ namespace ReWind.Scripts
         private const int OutputSampleRate = 44100;
         private float[] _clipSampleData;
         private float _clipLoudness;
+        private bool _microphoneInitialized;
+        AudioClip _microphoneInput;
         
         private void Awake()
         {
@@ -45,7 +47,8 @@ namespace ReWind.Scripts
         
         private void Start()
         {
-            StartCoroutine(CaptureMicAudio());
+            // StartCoroutine(CaptureMicAudio());
+            StartMicrophone();
         }
 
         private void Initialize()
@@ -58,6 +61,14 @@ namespace ReWind.Scripts
             MeasureMicOutputVolume();
         }
 
+        private void StartMicrophone()
+        {
+            if (Microphone.devices.Length <= 0) return;
+            
+            _microphoneInput = Microphone.Start(Microphone.devices[0],true,999,44100);
+            _microphoneInitialized = true;
+        }
+
         private IEnumerator CaptureMicAudio()
         {
             _micAudio.clip = Microphone.Start(null, true, 1, OutputSampleRate);
@@ -68,10 +79,28 @@ namespace ReWind.Scripts
             
             yield return null;
         }
+        
+        
 
         private void MeasureMicOutputVolume()
         {
-            if (!_micAudio) return;
+            int dec = 128;
+            float[] waveData = new float[dec];
+            int micPosition = Microphone.GetPosition(null)-(dec+1); // null means the first microphone
+            _microphoneInput.GetData(waveData, micPosition);
+	
+            // Getting a peak on the last 128 samples
+            float levelMax = 0;
+            for (int i = 0; i < dec; i++) {
+                float wavePeak = waveData[i] * waveData[i];
+                if (levelMax < wavePeak) {
+                    levelMax = wavePeak;
+                }
+            }
+            
+            _clipLoudness = Mathf.Sqrt(Mathf.Sqrt(levelMax));
+            
+            /*if (!_micAudio) return;
             
             _clipSampleData = new float[sampleDataLength];
             
@@ -84,7 +113,7 @@ namespace ReWind.Scripts
                 _clipLoudness += Mathf.Abs(sample);
             }
 
-            _clipLoudness = Mathf.Clamp(_clipLoudness, 0, 100);
+            _clipLoudness = Mathf.Clamp(_clipLoudness, 0, 100);*/
         }
 
 

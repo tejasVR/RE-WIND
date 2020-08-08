@@ -8,7 +8,8 @@ namespace XREngine.Core.Scripts.Utility
         [SerializeField] private Transform transformToFollow;
 
         [Header("Follow Settings")]
-        [SerializeField] private float followSpeed; 
+        [SerializeField] private float positionFollowSpeed; 
+        [SerializeField] private float rotationFollowSpeed; 
         
         [Header("Follow Behavior")]
         [SerializeField] private bool lerpFollow;
@@ -17,11 +18,8 @@ namespace XREngine.Core.Scripts.Utility
         {
             if (lerpFollow)
             {
-                transform.position = Vector3.Lerp(transform.position, transformToFollow.position,
-                    Time.deltaTime * followSpeed);
-
-                transform.rotation = Quaternion.Lerp(transform.rotation, transformToFollow.rotation,
-                    Time.deltaTime * followSpeed);
+                transform.position = Vector3.Lerp(transform.position, transformToFollow.position, Time.deltaTime * positionFollowSpeed);
+                transform.rotation = Quaternion.Lerp(transform.rotation, transformToFollow.rotation,Time.deltaTime * rotationFollowSpeed);
             }
             else
             {
