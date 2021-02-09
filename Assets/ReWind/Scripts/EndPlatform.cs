@@ -81,6 +81,8 @@ namespace ReWind.Scripts
         private void NextLevel()
         {
             _loadingNextLevel = true;
+            
+            MusicManager.Instance.PlayLevelCompleteSound();
 
             if (nextLevelName.Length == 0)
             {

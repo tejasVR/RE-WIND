@@ -39,6 +39,7 @@ namespace ReWind.Scripts
         private float _clipLoudness;
         private bool _microphoneInitialized;
         AudioClip _microphoneInput;
+        private string _microphone;
         
         private void Awake()
         {
@@ -49,6 +50,10 @@ namespace ReWind.Scripts
         {
             // StartCoroutine(CaptureMicAudio());
             StartMicrophone();
+            UpdateMicrophone();
+
+            _clipSampleData = new float[sampleDataLength];
+
         }
 
         private void Initialize()
@@ -56,7 +61,7 @@ namespace ReWind.Scripts
             _micOutput = this;
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             MeasureMicOutputVolume();
         }
@@ -64,9 +69,14 @@ namespace ReWind.Scripts
         private void StartMicrophone()
         {
             if (Microphone.devices.Length <= 0) return;
-            
-            _microphoneInput = Microphone.Start(Microphone.devices[0],true,999,44100);
-            _microphoneInitialized = true;
+
+            foreach (var device in Microphone.devices)
+            {
+                if (device == null) continue;
+                
+                _microphone = device;
+                break;
+            }
         }
 
         private IEnumerator CaptureMicAudio()
@@ -79,27 +89,60 @@ namespace ReWind.Scripts
             
             yield return null;
         }
-        
-        
+
+        private void UpdateMicrophone()
+        {
+            _micAudio.Stop();
+            _microphoneInput = Microphone.Start(_microphone, true, 999, AudioSettings.outputSampleRate);
+            _micAudio.loop = true;
+            
+            _microphoneInitialized = true;
+            
+            Debug.Log($"Microphone Initialized = {_microphoneInitialized}");
+
+            if (!Microphone.IsRecording(_microphone)) return;
+            
+            while (!(Microphone.GetPosition(_microphone) > 0)) {}
+
+            _micAudio.clip = _microphoneInput;
+            
+            _micAudio.Play();
+        }
 
         private void MeasureMicOutputVolume()
         {
-            int dec = 128;
+            /*int dec = 128;
             float[] waveData = new float[dec];
-            int micPosition = Microphone.GetPosition(null)-(dec+1); // null means the first microphone
-            _microphoneInput.GetData(waveData, micPosition);
-	
-            // Getting a peak on the last 128 samples
+            int micPosition = Microphone.GetPosition(null)-(dec+1); // null means the first microphone*/
+            
+            // Debug.Log($"Mic position is {micPosition}");
+            
+            // Debug.Log($"Wave Data is {waveData[0]}");
+            
+            _microphoneInput.GetData(_clipSampleData, _micAudio.timeSamples);
+
             float levelMax = 0;
-            for (int i = 0; i < dec; i++) {
-                float wavePeak = waveData[i] * waveData[i];
+            for (int i = 0; i < sampleDataLength; i++) {
+                float wavePeak = _clipSampleData[i] * _clipSampleData[i];
                 if (levelMax < wavePeak) {
                     levelMax = wavePeak;
                 }
             }
             
+            /*foreach (var sample in _clipSampleData)
+            {
+                _clipLoudness += Math.Abs(sample);
+            }
+            
+            _clipLoudness = sampleDataLength * 10000;*/
+            
+            
+            // Getting a peak on the last 128 samples
+        
             _clipLoudness = Mathf.Sqrt(Mathf.Sqrt(levelMax));
             
+            Debug.Log($"Microphone Loudness = {_clipLoudness}");
+
             /*if (!_micAudio) return;
             
             _clipSampleData = new float[sampleDataLength];

@@ -8,13 +8,15 @@ namespace ReWind.Scripts
     [RequireComponent(typeof(Collider))]
     public class BreathSensor : MonoBehaviour
     {
-        [SerializeField] private float micOutputDividerPC;
-        [SerializeField] private float upwardsForcePC;
+        /*[SerializeField] private float micOutputDividerPC;
+        [SerializeField] private float upwardsForcePC;*/
         
         [Space(7)]
-        [SerializeField] private float micOutputDividerQuest;
-        [SerializeField] private float upwardsForceQuest;
+        [SerializeField] private float micOutputDivider;
+        [SerializeField] private float upwardsForce;
+        [SerializeField] private float pushForceMultiplier;
 
+        
         [Space(7)]
         [SerializeField] private ParticleSystem windParticles;
         [SerializeField] private float particlePlayThreshold;
@@ -25,8 +27,9 @@ namespace ReWind.Scripts
         
         private List<LeafObject> _intersectingLeafObjects = new List<LeafObject>();
         
+        /*
         private float _micOutputDivider;
-        private float _upwardsForce;
+        private float _upwardsForce;*/
 
         private void Awake()
         {
@@ -36,7 +39,7 @@ namespace ReWind.Scripts
         private void Start()
         {
             _head = PlayerManager.Instance.GetHeadTransform();
-            SetPlatformVariables();
+            // SetPlatformVariables();
         }
         
         private void OnTriggerEnter(Collider other)
@@ -69,12 +72,12 @@ namespace ReWind.Scripts
             PlayWindParticles(_breathForce);
         }
 
-        private void SetPlatformVariables()
+        /*private void SetPlatformVariables()
         {
             if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Quest)
             {
-                _micOutputDivider = micOutputDividerQuest;
-                _upwardsForce = upwardsForceQuest;
+                _micOutputDivider = micOutputDivider;
+                _upwardsForce = upwardsForce;
             }
             else if(OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Rift_S || OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Link_Quest)
             {
@@ -82,15 +85,15 @@ namespace ReWind.Scripts
                 _upwardsForce = upwardsForcePC;
             }
             
-        }
+        }*/
 
         private void CalculateBreathForce()
         {
             var micOutput = MicOutput.Instance.MicVolume;
 
-            _breathForce = micOutput / _micOutputDivider;
+            _breathForce = micOutput / micOutputDivider;
 
-            var pushDirection = _head.transform.forward + (_head.transform.up * _upwardsForce);
+            var pushDirection = _head.transform.forward + (_head.transform.up * upwardsForce);
             
             if (_breathForce < particlePlayThreshold) return;
 
@@ -102,7 +105,7 @@ namespace ReWind.Scripts
                     continue;
                 }
                 
-                leaf.PushLeaf(pushDirection * (_breathForce * .02F));
+                leaf.PushLeaf(pushDirection * (_breathForce * pushForceMultiplier));
             }
         }
 

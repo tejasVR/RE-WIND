@@ -17,4 +17,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ReWind/Scenes/Level 3.unity
     guid: 7dafad3bfe79f464eb6ed32b71e7d917
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Level 4.unity
+    guid: 9e868a13bd822b84582fbf8973f7f72d
+  - enabled: 1
+    path: Assets/ReWind/Scenes/Level 5.unity
+    guid: 438914ee524a96d4c99982fea47f3d05
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: b8e8b27e6143b4e40bd5c7b22dfd1989,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ec99fd46179575f43932a29bf1bdb2e5,
+      type: 2}
